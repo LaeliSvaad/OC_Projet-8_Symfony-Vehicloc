@@ -1,1 +1,17 @@
-ici
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ parent() }}{% endblock %}
+
+{% block body %}
+    <section id="add">
+        <a href="/">← Retour</a>
+        <h1>Ajouter une voiture</h1>
+
+        {{ form_start(form) }}
+
+        {{ form_widget(form) }}
+
+        {{ form_end(form) }}
+
+    </section>
+{% endblock %}
