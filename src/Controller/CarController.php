@@ -11,9 +11,10 @@ use Symfony\Component\Routing\Attribute\Route;
 
 final class CarController extends AbstractController
 {
-    #[Route('/car/{id}', name: 'app_car')]
+    #[Route('/car/{id}', name: 'app_car_index')]
     public function index(int $id, CarRepository $repository): Response
     {
+
         $car = $repository->find($id);
 
         if(!$car) {
@@ -21,12 +22,11 @@ final class CarController extends AbstractController
         }
 
         return $this->render('car/index.html.twig', [
-            'controller_name' => 'CarController',
             'car' => $car,
         ]);
     }
 
-    #[Route('/car/{id}/delete', name: 'app_car')]
+    #[Route('/car/{id}/delete', name: 'app_car_delete')]
     public function deleteCar(int $id, CarRepository $repository, EntityManagerInterface $entityManager): Response
     {
         $car = $repository->find($id);
@@ -39,5 +39,12 @@ final class CarController extends AbstractController
         $entityManager->flush();
 
         return $this->redirectToRoute('app_home');
+    }
+
+    #[Route('/add', name: 'app_car_add')]
+    public function addCar(): Response
+    {
+        return $this->render('car/add.html.twig', [
+        ]);
     }
 }

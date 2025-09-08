@@ -14,7 +14,6 @@ final class HomeController extends AbstractController
     {
         $cars = $repository->findAll();
         return $this->render('home/index.html.twig', [
-            'controller_name' => 'HomeController',
             'cars' => $cars,
         ]);
     }
