@@ -57,11 +57,15 @@ class CarType extends AbstractType
                     'id' => 'places',
                     'name' => 'places',
                 ],])
-            ->add('motor', EnumType::class, ['class' => MotorType::class, 'label' => 'Boîte de vitesse',
+            ->add('motor', ChoiceType::class, [
+                'choices' => MotorType::cases(),
+                'choice_label' => fn (MotorType $motor) => $motor->getLabel(),
+                'choice_value' => fn (?MotorType $motor) => $motor?->value,
                 'attr' => [
                     'id' => 'motor',
                     'name' => 'motor',
-                ],])
+                ],
+            ])
             ->add('save', SubmitType::class, [
                 'label' => 'Ajouter',
                 'attr' => [
