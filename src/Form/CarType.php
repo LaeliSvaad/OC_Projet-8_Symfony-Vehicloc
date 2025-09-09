@@ -34,12 +34,14 @@ class CarType extends AbstractType
                 'attr' => [
                     'id' => 'monthly_price',
                     'name' => 'monthly_price',
-                ],])
+                ],
+                'invalid_message' => 'Entrez un nombre valide pour le prix mensuel.',])
             ->add('daily_price', NumberType::class, ['label' => 'Prix journalier',
                 'attr' => [
                     'id' => 'daily_price',
                     'name' => 'daily_price',
-                ],])
+                ],
+                'invalid_message' => 'Entrez un nombre valide pour le prix journalier.',])
             ->add('places', ChoiceType::class, ['choices'  => [
                 '1' => 1,
                 '2' => 2,

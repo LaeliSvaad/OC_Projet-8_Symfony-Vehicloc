@@ -6,31 +6,52 @@ use App\Repository\CarRepository;
 use App\Enum\MotorType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: CarRepository::class)]
 class Car
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column (type: 'integer')]
     private ?int $id = null;
 
-    #[ORM\Column(length: 70)]
+    #[ORM\Column(type: 'string', length: 70)]
+    #[Assert\NotBlank(message: "Le nom ne peut être vide.")]
+    #[Assert\Length(
+        max: 70,
+        maxMessage: 'Le nom de la voiture ne doit pas excéder {{ limit }} caractères.',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: "La description ne peut être vide.")]
     private ?string $description = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'float')]
+    #[Assert\Type('float')]
+    #[Assert\NotBlank(message: "Le prix mensuel est obligatoire.")]
+    #[Assert\Positive(message: "Le prix mensuel doit être positif.")]
     private ?float $monthly_price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'float')]
+    #[Assert\Type('float')]
+    #[Assert\NotBlank(message: "Le prix journalier est obligatoire.")]
+    #[Assert\Positive(message: "Le prix journalier doit être positif.")]
     private ?float $daily_price = null;
 
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
+    #[Assert\Type('integer')]
+    #[Assert\NotNull(message: "Le nombre de places est obligatoire.")]
+    #[Assert\Range(
+        min: 1,
+        max: 9,
+        notInRangeMessage: 'Le nombre de places doit être compris entre {{ min }} et {{ max }}.',
+    )]
     private ?int $places = null;
 
     #[ORM\Column(enumType: MotorType::class)]
+    #[Assert\NotNull(message: "Le type de moteur est obligatoire.")]
     private ?MotorType $motor = null;
 
     public function getId(): ?int
