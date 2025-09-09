@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use App\Entity\Car;
+use App\Enum\MotorType;
 use App\Repository\CarRepository;
 use Doctrine\ORM\EntityRepository;
 use Zenstruck\Foundry\Persistence\PersistentProxyObjectFactory;
@@ -34,12 +35,12 @@ final class CarFactory extends PersistentProxyObjectFactory{
      */
     protected function defaults(): array|callable    {
         return [
-            'daily_price' => self::faker()->randomFloat(),
+            'daily_price' => self::faker()->randomFloat(2),
             'description' => self::faker()->text(),
-            'monthly_price' => self::faker()->randomFloat(),
-            'motor' => self::faker()->text(12),
+            'monthly_price' => self::faker()->randomFloat(2),
+            'motor' => self::faker()->randomElement(MotorType::cases()),
             'name' => self::faker()->text(70),
-            'places' => self::faker()->randomNumber(),
+            'places' => self::faker()->numberBetween(1, 9),
         ];
     }
 

@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\CarRepository;
+use App\Enum\MotorType;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -29,8 +30,8 @@ class Car
     #[ORM\Column]
     private ?int $places = null;
 
-    #[ORM\Column(length: 12)]
-    private ?string $motor = null;
+    #[ORM\Column(enumType: MotorType::class)]
+    private ?MotorType $motor = null;
 
     public function getId(): ?int
     {
@@ -97,15 +98,14 @@ class Car
         return $this;
     }
 
-    public function getMotor(): ?string
+    public function getMotor(): ?MotorType
     {
         return $this->motor;
     }
 
-    public function setMotor(string $motor): static
+    public function setMotor(?MotorType $motor): self
     {
         $this->motor = $motor;
-
         return $this;
     }
 }

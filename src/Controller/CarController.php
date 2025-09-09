@@ -8,6 +8,7 @@ use App\Repository\CarRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 
 final class CarController extends AbstractController
@@ -43,10 +44,19 @@ final class CarController extends AbstractController
     }
 
     #[Route('/add', name: 'app_car_add')]
-    public function addCar(): Response
+    public function addCar(EntityManagerInterface $entityManager, Request $request): Response
     {
         $car = new Car();
         $form = $this->createForm(CarType::class, $car);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $entityManager->persist($car);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('app_car_add');
+        }
+
         return $this->render('car/add.html.twig', [
             'form' => $form,
         ]);
